@@ -156,21 +156,15 @@ impl InputMapper {
             }
         }
 
-        let mut keys_minus_remapped = keys.clone();
-
         // Second pass to apply Remap items
         for map in &self.mappings {
             if let Mapping::Remap { input, output } = map {
-                if input.is_subset(&keys_minus_remapped) {
+                if input.is_subset(&keys) {
                     for i in input {
                         keys.remove(i);
-                        keys_minus_remapped.remove(i);
                     }
                     for o in output {
                         keys.insert(o.clone());
-                        // Outputs that apply are not visible as
-                        // inputs for later remap rules
-                        keys_minus_remapped.remove(o);
                     }
                 }
             }
